@@ -17,32 +17,19 @@ This project uses the official Wokwi repositories cloned locally, which allows k
 - **Repository**: https://github.com/wokwi/avr8js
 - **License**: MIT
 - **Current usage**: Real CPU emulation at 16MHz, with Timer0/1/2, USART, ADC, and GPIO ports (PORTB/C/D). Runs ~267,000 cycles per frame at ~60fps.
-
 ### rp2040js
 - **Location**: `third-party/rp2040js/`
 - **Description**: Raspberry Pi Pico (RP2040) emulator in JavaScript
 - **Repository**: https://github.com/wokwi/rp2040js
 - **License**: MIT
-- **Usage**: Cloned for future Raspberry Pi Pico support
-
-### wokwi-features
-- **Location**: `third-party/wokwi-features/`
-- **Description**: Wokwi documentation and feature tracking
-- **Repository**: https://github.com/wokwi/wokwi-features
+- **Usage**: Cloned for reference (resolved from npm)
 
 ## Project Configuration
 
 ### Frontend (Vite)
 
-The `frontend/vite.config.ts` file is configured to use the local repositories via aliases:
+The `frontend/vite.config.ts` file is configured to use the libraries from npm:
 
-```typescript
-resolve: {
-  alias: {
-    'avr8js': path.resolve(__dirname, '../third-party/avr8js/dist/esm'),
-    '@wokwi/elements': path.resolve(__dirname, '../third-party/wokwi-elements/dist/esm'),
-  },
-},
 optimizeDeps: {
   include: ['avr8js', '@wokwi/elements'],
 }

@@ -28,11 +28,24 @@ for key in list(sys.modules.keys()):
     if 'espidf_compiler' in key:
         del sys.modules[key]
 
+import pytest
 from app.services.espidf_compiler import ESPIDFCompiler
 
 # ── Real paths on this machine ────────────────────────────────────────────────
-ARDUINO_LIBS = Path.home() / 'Documents' / 'Arduino' / 'libraries'
+# Fallback to docker container's path if running in Docker
+_IS_DOCKER = os.environ.get('IS_DOCKER', '0') == '1' or os.path.exists('/.dockerenv')
+_USER_HOME = Path('/root') if _IS_DOCKER else Path.home()
+
+ARDUINO_LIBS = _USER_HOME / 'Documents' / 'Arduino' / 'libraries'
+if _IS_DOCKER:
+    ARDUINO_LIBS = Path('/root/Arduino/libraries')
+
 ESP32_LIBS   = Path('C:/Espressif/components/arduino-esp32/libraries')
+
+pytestmark = pytest.mark.skipif(
+    not ARDUINO_LIBS.exists(),
+    reason=f"Diagnostic test requires real Arduino libraries at {ARDUINO_LIBS}"
+)
 
 SSD1306_SKETCH_HEADERS = ['Wire.h', 'Adafruit_GFX.h', 'Adafruit_SSD1306.h']
 

@@ -140,12 +140,15 @@ WORKDIR /app
 # registry (see frontend/package.json) — no upstream git clones needed.
 # Board SVGs live in frontend/public/boards/, component SVGs in
 # frontend/public/component-svgs/, and components-metadata.json is committed.
+COPY package.json package-lock.json ./
 COPY frontend/ frontend/
 COPY tools/ tools/
-WORKDIR /app/frontend
+
 # We use committed package-lock.json for reproducible builds.
-RUN npm install --include=optional \
- && npm run build:docker
+RUN npm install --include=optional
+
+WORKDIR /app/frontend
+RUN npm run build:docker
 
 
 # ---- Stage 2: Final Production Image ----

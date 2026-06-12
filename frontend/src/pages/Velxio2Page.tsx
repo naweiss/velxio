@@ -787,18 +787,6 @@ export const Velxio2Page: React.FC = () => {
               </div>
             </a>
             <a
-              href="https://github.com/wokwi/wokwi-features"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-repo-card"
-            >
-              <IcoGitHub />
-              <div>
-                <h3>wokwi-features</h3>
-                <p>Feature tracking and component specifications for the Wokwi ecosystem</p>
-              </div>
-            </a>
-            <a
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"

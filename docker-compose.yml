@@ -40,7 +40,11 @@ services:
       - ./data:/app/data
       - ./backend/app:/app/backend/app
       - ./frontend:/app/frontend
+      - ./tools:/app/tools
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
       - /app/frontend/node_modules
+      - /app/node_modules
       - arduino-libs:/root/.arduino15
       - ccache:/var/cache/ccache
       - velxio-build:/var/lib/velxio-build

@@ -27,11 +27,6 @@ build/
 .DS_Store
 Thumbs.db
 
-# Third-party reference repositories (optional clones — not required to run
-# Velxio). Clone them manually when needed for offline hacking or metadata
-# generation. See CLAUDE.md "Wokwi Libraries" section for details.
-third-party/
-
 # Build outputs
 frontend/dist/
 frontend/.vite/
@@ -85,14 +80,6 @@ third-party/*/dist/
 third-party/*/node_modules/
 third-party/*/.cache/
 
-# NO ignorar los repositorios de Wokwi
-!third-party/wokwi-elements/
-!third-party/avr8js/
-!third-party/rp2040js/
-!third-party/wokwi-features/
-!third-party/wokwi-boards/
-!third-party/esp-idf/
-!third-party/arduino-esp32/
 .claude/settings.local.json
 .history/*
 .daveagent/*

@@ -18,16 +18,13 @@ env/
 frontend/dist/
 frontend/.vite/
 
-# Reference-only third-party clones.
-# We exclude the ones that are pulled from npm.
-third-party/avr8js/
-third-party/rp2040js/
-third-party/wokwi-elements/
-
 # We ALLOW these submodules because they are used in the Docker build
 !third-party/esp-idf/
 !third-party/arduino-esp32/
 !third-party/wokwi-boards/
+
+# But ignore wokwi-elements (only used for local/CI metadata generation)
+third-party/wokwi-elements/
 
 
 # QEMU source & Windows builds (only prebuilt/qemu/ .so files are needed)

@@ -541,7 +541,6 @@ See [LICENSE](LICENSE) and [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) for fu
 - [avr8js](https://github.com/wokwi/avr8js) — AVR8 emulator
 - [wokwi-elements](https://github.com/wokwi/wokwi-elements) — Electronic web components
 - [wokwi-boards](https://github.com/wokwi/wokwi-boards) — Board SVG assets
-- [wokwi-features](https://github.com/wokwi/wokwi-features) — Wokwi feature definitions
 - [rp2040js](https://github.com/wokwi/rp2040js) — RP2040 emulator
 - [ngspice-wasm](https://github.com/wokwi/ngspice-wasm) — ngspice compiled to WebAssembly (electrical simulation)
 - [lcgamboa/qemu](https://github.com/lcgamboa/qemu) — QEMU fork for ESP32 Xtensa emulation
