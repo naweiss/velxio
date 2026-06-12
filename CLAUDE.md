@@ -45,31 +45,27 @@ uvicorn app.main:app --reload --port 8001
 
 **Setup:**
 ```bash
-cd frontend
 npm install
 ```
 
 **Run development server:**
 ```bash
-cd frontend
-npm run dev
+npm run dev --workspace=frontend
 ```
 
 **Build for production:**
 ```bash
-cd frontend
-npm run build
+npm run build --workspace=frontend
 ```
 
 **Docker build (skips tsc type-check, uses esbuild only):**
 ```bash
-npm run build:docker
+npm run build:docker --workspace=frontend
 ```
 
 **Lint:**
 ```bash
-cd frontend
-npm run lint
+npm run lint --workspace=frontend
 ```
 
 **Access:**
@@ -89,7 +85,7 @@ ESP32 emulation when rebuilding QEMU).
 `frontend/package.json` and run `npm install` in `frontend/`.
 
 **Adding new components to wokwi-elements:** the metadata generator
-(`scripts/generate-component-metadata.ts`) scans the upstream `src/`,
+(`tools/generate-component-metadata.ts`) scans the upstream `src/`,
 which the npm package doesn't ship. Clone wokwi-elements once into
 `third-party/wokwi-elements/` and run `npm run generate:metadata`. The
 script gracefully skips when the clone is absent — `components-metadata.json`
@@ -372,13 +368,13 @@ board.
 ### 6b. Component metadata JSON is GENERATED — never edit by hand ⚠️
 
 `frontend/public/components-metadata.json` is produced by
-`scripts/generate-component-metadata.ts`. **Direct edits get wiped** the
+`tools/generate-component-metadata.ts`. **Direct edits get wiped** the
 next time the generator runs (which happens on every third-party update,
 plus anyone who runs `npm run generate:metadata` from `frontend/`).
 
 For Velxio-native components that don't exist in wokwi-elements (custom
 chips, ePaper panels, logic gates, voltmeters, …) add the entry to
-**`scripts/component-overrides.json`** under the `_customComponents`
+**`tools/component-overrides.json`** under the `_customComponents`
 array. The generator copies them verbatim into the output and they
 survive every regeneration.
 
@@ -390,15 +386,11 @@ patches (see `docs/wiki/component-metadata-generator.md`).
 To regenerate after editing the override file:
 
 ```bash
-cd frontend
-npm run generate:metadata
+npm run generate:metadata --workspace=frontend
 ```
 
 (The script needs `tsx` and `typescript` resolvable; the npm script in
-`frontend/package.json:8` is the supported entry point — if it errors
-with "Cannot find module 'typescript'", run with
-`NODE_PATH="$PWD/frontend/node_modules" npx tsx scripts/generate-component-metadata.ts`
-from the repo root.)
+`frontend/package.json` is the supported entry point)
 
 ### 7. Pre-existing TypeScript Errors
 
@@ -412,7 +404,7 @@ There are known pre-existing TS errors that do NOT block the app from running:
 ### 8. Docker Build — third-party
 
 `Dockerfile.standalone` does NOT clone any wokwi-* repos. The frontend stage
-just does `COPY frontend/ scripts/` then `npm install && npm run build:docker`,
+just does `COPY frontend/ tools/` then `npm install && npm run build:docker`,
 which pulls `@wokwi/elements`, `avr8js`, `rp2040js` from npm. Board SVGs live
 in `frontend/public/boards/`, component SVGs in `frontend/public/component-svgs/`,
 and `components-metadata.json` is committed.

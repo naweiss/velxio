@@ -3,14 +3,6 @@ node_modules/
 */node_modules/
 **/node_modules/
 
-# npm lock files. We deliberately do NOT commit these — they pin
-# platform-specific native binaries (Rollup, esbuild, swc) and a lock
-# generated on Windows breaks the Linux Docker build (and vice versa). The
-# Docker image always does a fresh `npm install` so reproducibility is
-# pinned by package.json's version ranges + the image tag. See npm/cli#4828.
-package-lock.json
-**/package-lock.json
-
 # Python
 __pycache__/
 *.py[cod]
@@ -98,6 +90,9 @@ third-party/*/.cache/
 !third-party/avr8js/
 !third-party/rp2040js/
 !third-party/wokwi-features/
+!third-party/wokwi-boards/
+!third-party/esp-idf/
+!third-party/arduino-esp32/
 .claude/settings.local.json
 .history/*
 .daveagent/*

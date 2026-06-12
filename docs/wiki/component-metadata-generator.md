@@ -33,7 +33,7 @@ Instead of maintaining this metadata manually, a **generator script** scans the 
 third-party/wokwi-elements/src/*-element.ts
          │
          ▼
-scripts/generate-component-metadata.ts    ←── reads TypeScript AST
+tools/generate-component-metadata.ts    ←── reads TypeScript AST
          │
          ├── Extracts @customElement('wokwi-led') → id: "led"
          ├── Extracts @property() color = 'red'   → { name: "color", defaultValue: "red" }
@@ -57,7 +57,7 @@ npx ts-node generate-component-metadata.ts
 Or if `ts-node` is not available:
 
 ```bash
-npx tsx scripts/generate-component-metadata.ts
+npx tsx tools/generate-component-metadata.ts
 ```
 
 ---
@@ -84,7 +84,7 @@ Previously, these customizations were made by hand-editing `components-metadata.
 
 ## The Solution: component-overrides.json
 
-A separate JSON file at `scripts/component-overrides.json` stores all custom property overrides. The generator reads this file **after** scanning wokwi-elements and applies the overrides before writing the output.
+A separate JSON file at `tools/component-overrides.json` stores all custom property overrides. The generator reads this file **after** scanning wokwi-elements and applies the overrides before writing the output.
 
 ```
 Auto-generated from wokwi-elements    +    component-overrides.json
@@ -253,7 +253,7 @@ Add a new entry keyed by the component's `id` (the part after `wokwi-` in the ta
 ### Step 2: Regenerate metadata
 
 ```bash
-npx tsx scripts/generate-component-metadata.ts
+npx tsx tools/generate-component-metadata.ts
 ```
 
 The generator will log:
@@ -376,8 +376,8 @@ id: "led-bar-graph" → tags: ["led-bar-graph", "led bar graph", "led", "bar", "
 
 | File | Description |
 |------|-------------|
-| `scripts/generate-component-metadata.ts` | Generator script — scans wokwi-elements, applies overrides, writes JSON |
-| `scripts/component-overrides.json` | Custom property overrides (survives regeneration) |
+| `tools/generate-component-metadata.ts` | Generator script — scans wokwi-elements, applies overrides, writes JSON |
+| `tools/component-overrides.json` | Custom property overrides (survives regeneration) |
 | `frontend/public/components-metadata.json` | Generated output — consumed by the frontend at runtime |
 | `frontend/src/types/component-metadata.ts` | TypeScript interface for `ComponentMetadata` |
 | `frontend/src/services/ComponentRegistry.ts` | Loads and indexes the metadata JSON at runtime |

@@ -99,9 +99,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libusb-1.0-0 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install ESP-IDF 4.4.7 (matches Arduino ESP32 core 2.0.17 / lcgamboa QEMU ROM)
-RUN git clone -b v4.4.7 --recursive --depth=1 --shallow-submodules \
-    https://github.com/espressif/esp-idf.git /opt/esp-idf
+# We use Git Submodules for esp-idf (see .gitmodules)
+COPY third-party/esp-idf /opt/esp-idf
 
 WORKDIR /opt/esp-idf
 
@@ -113,9 +112,9 @@ RUN rm -rf .git docs examples \
     && find /root/.espressif -name '*.tar.*' -delete 2>/dev/null || true
 
 # Install Arduino-as-component for full Arduino API support in ESP-IDF builds
-RUN git clone --branch 2.0.17 --depth=1 --recursive --shallow-submodules \
-    https://github.com/espressif/arduino-esp32.git /opt/arduino-esp32 \
- && rm -rf /opt/arduino-esp32/.git
+# We use Git Submodules for arduino-esp32 (see .gitmodules)
+COPY third-party/arduino-esp32 /opt/arduino-esp32
+RUN rm -rf /opt/arduino-esp32/.git
 
 # mkspiffs (arduino-esp32 0.2.3 flavor) — bakes uploaded files into the SPIFFS
 # data-partition image at compile time. Without it espidf_compiler._build_spiffs_image
@@ -142,13 +141,10 @@ WORKDIR /app
 # Board SVGs live in frontend/public/boards/, component SVGs in
 # frontend/public/component-svgs/, and components-metadata.json is committed.
 COPY frontend/ frontend/
-COPY scripts/ scripts/
+COPY tools/ tools/
 WORKDIR /app/frontend
-# Lock files aren't committed in this repo (they're gitignored) — see the
-# note in .gitignore. The `rm -f` below is defense-in-depth in case
-# someone runs `docker build .` from a tree where a local lock exists.
-RUN rm -f package-lock.json \
- && npm install --include=optional \
+# We use committed package-lock.json for reproducible builds.
+RUN npm install --include=optional \
  && npm run build:docker
 
 
@@ -192,10 +188,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh \
     | BINDIR=/usr/local/bin sh
 
-# Only install arduino-cli binary here. Core installation (arduino:avr,
-# rp2040:rp2040) is done at first boot by entrypoint.sh and persisted
-# in the mounted /root/.arduino15 volume.
-# ESP32 compilation uses ESP-IDF instead of arduino-cli.
+# Initialize arduino-cli and pre-install cores for offline reliability
+RUN arduino-cli config init \
+ && arduino-cli config add board_manager.additional_urls \
+    https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json \
+ && arduino-cli config add board_manager.additional_urls \
+    https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json \
+ && arduino-cli config add board_manager.additional_urls \
+    http://drazzy.com/package_drazzy.com_index.json \
+ && arduino-cli config add board_manager.additional_urls \
+    https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json \
+ && arduino-cli core update-index \
+ && arduino-cli core install arduino:avr@1.8.6 \
+ && arduino-cli core install rp2040:rp2040@3.7.2 \
+ && arduino-cli core install ATTinyCore:avr@1.5.2 \
+ && arduino-cli core install STMicroelectronics:stm32@2.7.1
 
 WORKDIR /app
 
@@ -208,10 +215,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend application code
 COPY backend/app/ ./app/
-
-# One-off maintenance scripts (e.g. backfill_boards_2026_05). Pure stdlib —
-# run with: docker exec velxio-app python /app/scripts/<script> --apply
-COPY backend/scripts/ ./scripts/
 
 # Setup Nginx configuration. Remove Debian's stock site so it doesn't shadow
 # ours as the default_server (was Issue #108: users behind reverse proxies got

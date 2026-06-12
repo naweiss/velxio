@@ -19,7 +19,7 @@
  *   0x2000          UART_DATA  (read RX byte / write TX byte)
  *   0x2001          UART_STAT  (bit 0 = TX always ready, bit 1 = RX has byte)
  *
- * The program (assembled by scripts/asm8080.py from scripts/repl-rom.s)
+ * The program (assembled by scripts/asm8080.py from tools/repl-rom.s)
  * prints a banner and then loops printing "uptime ticks: NN" every ~50 ms
  * with a real DCR/JNZ busy-wait — a clear visual proof that the 8080
  * core is executing real instructions.
@@ -30,7 +30,7 @@
 
 /* ─── Embedded ROM ─────────────────────────────────────────────────────── */
 static const uint8_t ROM[] = {
-    /* Assembled from scripts/repl-rom.s — 328 bytes. */
+    /* Assembled from tools/repl-rom.s — 328 bytes. */
     0x31, 0xff, 0x10, 0x21, 0x72, 0x00, 0xcd, 0x45, 0x00, 0x3e, 0x00, 0x32,
     0x00, 0x10, 0x21, 0x35, 0x01, 0xcd, 0x45, 0x00, 0x3a, 0x00, 0x10, 0xcd,
     0x50, 0x00, 0x3e, 0x0d, 0xcd, 0x41, 0x00, 0x3e, 0x0a, 0xcd, 0x41, 0x00,

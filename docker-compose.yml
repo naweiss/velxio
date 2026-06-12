@@ -14,6 +14,8 @@ services:
     restart: unless-stopped
     ports:
       - "3080:80"
+      - "5173:5173"
+
     env_file:
       - path: ./backend/.env
         required: false
@@ -36,9 +38,14 @@ services:
       - VELXIO_PERSISTENT_BUILD_DIR=1
     volumes:
       - ./data:/app/data
+      - ./backend/app:/app/backend/app
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
       - arduino-libs:/root/.arduino15
       - ccache:/var/cache/ccache
       - velxio-build:/var/lib/velxio-build
+
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 30s

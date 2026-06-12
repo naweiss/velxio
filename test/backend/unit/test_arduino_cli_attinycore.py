@@ -105,34 +105,20 @@ def test_core_id_for_fqbn_routes_attiny85():
     assert matcher(stub, "arduino:avr:uno") is None
 
 
-# ── Production deploy script — entrypoint.sh ────────────────────────────────
+# ── Production deploy script — Dockerfile.standalone ────────────────────────────────
 
 
-def test_entrypoint_installs_attinycore_in_production():
-    """docker/entrypoint.sh must add the drazzy URL and `core install
+def test_dockerfile_installs_attinycore_in_production():
+    """Dockerfile.standalone must add the drazzy URL and `core install
     ATTinyCore:avr` so the standalone Docker image can compile ATtiny85
     sketches without the auto-install penalty on the first request."""
-    script = (_REPO / "docker" / "entrypoint.sh").read_text(encoding="utf-8")
-    assert "drazzy.com/package_drazzy.com_index.json" in script, (
-        "entrypoint.sh is missing the drazzy.com board-manager URL — first "
+    dockerfile = (_REPO / "Dockerfile.standalone").read_text(encoding="utf-8")
+    assert "drazzy.com/package_drazzy.com_index.json" in dockerfile, (
+        "Dockerfile.standalone is missing the drazzy.com board-manager URL — first "
         "ATtiny85 compile will fail in the production Docker image."
     )
-    assert "core install ATTinyCore:avr" in script, (
-        "entrypoint.sh must run `arduino-cli core install ATTinyCore:avr`."
-    )
-
-
-def test_backend_dockerfile_prebakes_attinycore():
-    """backend/Dockerfile (used by docker-compose dev) should pre-install
-    ATTinyCore so the test environment matches production."""
-    dockerfile = (_REPO / "backend" / "Dockerfile").read_text(encoding="utf-8")
-    assert "ATTinyCore:avr" in dockerfile, (
-        "backend/Dockerfile doesn't install ATTinyCore — the dev container "
-        "won't be able to compile ATtiny85 sketches."
-    )
-    assert "drazzy.com" in dockerfile, (
-        "backend/Dockerfile must add the drazzy.com URL before installing "
-        "ATTinyCore:avr (otherwise the platform can't be resolved)."
+    assert "core install ATTinyCore:avr" in dockerfile, (
+        "Dockerfile.standalone must run `arduino-cli core install ATTinyCore:avr`."
     )
 
 

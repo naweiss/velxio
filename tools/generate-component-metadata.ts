@@ -12,7 +12,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
+import { fileURLToPath } from 'url';
 import type { ComponentMetadata, ComponentCategory } from '../frontend/src/types/component-metadata';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Hardcoded category mapping (components don't self-declare categories)
 const CATEGORY_MAP: Record<string, ComponentCategory> = {

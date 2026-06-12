@@ -9,7 +9,7 @@ This project uses the official Wokwi repositories cloned locally, which allows k
 - **Description**: Web Components (Lit) for 48+ electronic elements (LEDs, resistors, buttons, LCDs, sensors, etc.)
 - **Repository**: https://github.com/wokwi/wokwi-elements
 - **License**: MIT
-- **Current usage**: Visual rendering of all components on the simulation canvas. A metadata generation script (`scripts/generate-component-metadata.ts`) parses the TypeScript source code to automatically discover all components, their properties, and pins.
+- **Current usage**: Visual rendering of all components on the simulation canvas. A metadata generation script (`tools/generate-component-metadata.ts`) parses the TypeScript source code to automatically discover all components, their properties, and pins.
 
 ### avr8js
 - **Location**: `third-party/avr8js/`
@@ -61,7 +61,7 @@ The `frontend/package.json` file references the local packages:
 
 ### Automatic Metadata Generation
 
-The `scripts/generate-component-metadata.ts` script parses the wokwi-elements source code using the TypeScript AST to extract:
+The `tools/generate-component-metadata.ts` script parses the wokwi-elements source code using the TypeScript AST to extract:
 - Tag name (`@customElement('wokwi-led')` → `wokwi-led`)
 - Properties (`@property()` decorators → type, default value)
 - Number of pins
@@ -126,7 +126,7 @@ If you updated wokwi-elements, regenerate the component metadata so that new com
 
 ```bash
 cd frontend
-npx tsx ../scripts/generate-component-metadata.ts
+npx tsx ../tools/generate-component-metadata.ts
 ```
 
 ## Automatic Update Script
@@ -344,13 +344,13 @@ Regenerate the component metadata:
 
 ```bash
 cd frontend
-npx tsx ../scripts/generate-component-metadata.ts
+npx tsx ../tools/generate-component-metadata.ts
 ```
 
 ### New wokwi-elements component does not appear
 
 1. Update wokwi-elements: `cd third-party/wokwi-elements && git pull && npm run build`
-2. Regenerate metadata: `cd frontend && npx tsx ../scripts/generate-component-metadata.ts`
+2. Regenerate metadata: `cd frontend && npx tsx ../tools/generate-component-metadata.ts`
 3. If it needs simulation, register its behavior in `frontend/src/simulation/parts/`
 
 ### Components are visible but do not respond to simulation

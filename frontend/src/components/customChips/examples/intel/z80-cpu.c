@@ -1,7 +1,7 @@
 /*
  * z80-cpu.c — programmable Zilog Z80 chip for Velxio.
  *
- * Generated from z80.c by scripts/make-z80-cpu.py. The Z80 CPU emulation
+ * Generated from z80.c by tools/make-z80-cpu.py. The Z80 CPU emulation
  * is the same clean-room implementation validated by test_z80/z80.test.js
  * (passes ZEXDOC end-to-end). The external pin/bus protocol is replaced
  * with internal RAM + ROM + memory-mapped LED/BTN/UART peripherals so the

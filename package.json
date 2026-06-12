@@ -1,4 +1,14 @@
 {
+  "name": "velxio-root",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "workspaces": [
+    "frontend",
+    "tools"
+  ],
   "devDependencies": {
     "@types/node": "^25.3.3",
     "tsx": "^4.21.0",

@@ -1,6 +1,6 @@
 # Fase 9 — Expansión del catálogo de componentes
 
-> **Destino:** `frontend/src/simulation/spice/componentToSpice.ts`, `frontend/src/simulation/parts/`, `scripts/generate-component-metadata.ts` + `scripts/component-overrides.json`, `frontend/src/components/components-wokwi/`.
+> **Destino:** `frontend/src/simulation/spice/componentToSpice.ts`, `frontend/src/simulation/parts/`, `tools/generate-component-metadata.ts` + `tools/component-overrides.json`, `frontend/src/components/components-wokwi/`.
 > **Pre-requisito leído:** [`autosearch/05_velxio_component_inventory.md`](../autosearch/05_velxio_component_inventory.md) — auditoría completa de lo que existe por capa.
 > **Meta:** cerrar los huecos de compuertas lógicas (XNOR, 3/4-input, SPICE mappers) y completar las familias analógicas básicas (PNP, P-MOSFET, op-amps reales, reguladores, fuentes).
 
@@ -50,7 +50,7 @@
    - `mosfet-irf9540` (PMOS potencia), `mosfet-fqp27p06` (PMOS logic-level)
    - Modelos SPICE ya usados en los tests de la sesión 2026-04-15 (ver `spice_transistors.test.js::H-bridge`).
 
-4. **Metadata JSON para las 6+1 gates y los 4 transistores nuevos** — el mecanismo actual de `scripts/component-overrides.json` **solo parcha componentes ya descubiertos** en `third-party/wokwi-elements/src/`. No permite añadir componentes nuevos, y cualquier edición manual de `components-metadata.json` se pierde al regenerar (el generador hace `writeFileSync` sobrescribiendo el archivo entero). **Antes** de añadir entradas hay que resolver este bloqueador — ver fase 9.0 abajo.
+4. **Metadata JSON para las 6+1 gates y los 4 transistores nuevos** — el mecanismo actual de `tools/component-overrides.json` **solo parcha componentes ya descubiertos** en `third-party/wokwi-elements/src/`. No permite añadir componentes nuevos, y cualquier edición manual de `components-metadata.json` se pierde al regenerar (el generador hace `writeFileSync` sobrescribiendo el archivo entero). **Antes** de añadir entradas hay que resolver este bloqueador — ver fase 9.0 abajo.
 
 ### B) Media prioridad — completan familias
 
@@ -96,11 +96,11 @@
 
 ### Fase 9.0 — Habilitar componentes custom en el generador de metadata (1 día — **bloqueador**)
 
-**Problema:** `scripts/generate-component-metadata.ts` escanea solo `third-party/wokwi-elements/src/*-element.ts`, y `applyOverrides()` no crea componentes nuevos — solo parcha los ya descubiertos. Cualquier mapper SPICE o gate lógica que no exista en wokwi-elements es invisible en la UI, y editar a mano `components-metadata.json` se pierde al regenerar.
+**Problema:** `tools/generate-component-metadata.ts` escanea solo `third-party/wokwi-elements/src/*-element.ts`, y `applyOverrides()` no crea componentes nuevos — solo parcha los ya descubiertos. Cualquier mapper SPICE o gate lógica que no exista en wokwi-elements es invisible en la UI, y editar a mano `components-metadata.json` se pierde al regenerar.
 
 **Solución recomendada (opción A de la auditoría):** extender `component-overrides.json` con una sección nueva `"_customComponents"` y patchear el generador ~15 líneas.
 
-Paso 1 — extender `scripts/component-overrides.json`:
+Paso 1 — extender `tools/component-overrides.json`:
 
 ```json
 {

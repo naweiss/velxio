@@ -1,8 +1,8 @@
 /**
  * Single source of truth for all public, indexable routes and their SEO metadata.
  * Used by:
- *  1. scripts/generate-sitemap.mjs  → builds sitemap.xml at build time
- *  2. scripts/prerender-seo.mjs     → generates prerendered HTML per route
+ *  1. tools/generate-sitemap.mjs  → builds sitemap.xml at build time
+ *  2. tools/prerender-seo.mjs     → generates prerendered HTML per route
  *  3. Page components (via getSeoMeta) → useSEO() hook
  *
  * Routes with `noindex: true` are excluded from the sitemap.

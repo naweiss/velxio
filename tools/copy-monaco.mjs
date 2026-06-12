@@ -9,10 +9,16 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
+const frontend = join(root, 'frontend');
 
-const src = join(root, 'node_modules', 'monaco-editor', 'min', 'vs');
-const dest = join(root, 'public', 'monaco', 'vs');
-const monacoDir = join(root, 'public', 'monaco');
+// monaco-editor might be in root node_modules or frontend node_modules
+let src = join(root, 'node_modules', 'monaco-editor', 'min', 'vs');
+if (!existsSync(src)) {
+  src = join(frontend, 'node_modules', 'monaco-editor', 'min', 'vs');
+}
+
+const dest = join(frontend, 'public', 'monaco', 'vs');
+const monacoDir = join(frontend, 'public', 'monaco');
 
 if (!existsSync(src)) {
   console.error('monaco-editor not found in node_modules — skipping copy.');

@@ -22,7 +22,9 @@ import { fileURLToPath } from 'url';
 import { createServer } from 'vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const distDir = join(__dirname, '..', 'dist');
+const rootDir = join(__dirname, '..');
+const frontendDir = join(rootDir, 'frontend');
+const distDir = join(frontendDir, 'dist');
 
 // Check that dist exists (vite build must have run first)
 if (!existsSync(join(distDir, 'index.html'))) {
@@ -59,6 +61,7 @@ if (typeof globalThis.matchMedia === 'undefined') {
 console.log('🔧 Starting Vite SSR transform pipeline...');
 
 const vite = await createServer({
+  root: frontendDir,
   server: { middlewareMode: true },
   appType: 'custom',
   logLevel: 'warn',

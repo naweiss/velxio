@@ -5,7 +5,7 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
-COPY scripts/ scripts/
+COPY tools/ tools/
 COPY frontend/ frontend/
 
 WORKDIR /app/frontend

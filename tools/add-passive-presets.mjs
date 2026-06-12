@@ -20,7 +20,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OVERRIDES_PATH = resolve(__dirname, '../../scripts/component-overrides.json');
+const OVERRIDES_PATH = resolve(__dirname, 'component-overrides.json');
 
 const overrides = JSON.parse(readFileSync(OVERRIDES_PATH, 'utf8'));
 

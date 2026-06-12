@@ -326,11 +326,11 @@ ones). Only `docker rm -v` or `docker volume prune` would wipe them.
 ```bash
 git clone https://github.com/davidmonterocrespo24/velxio.git
 cd velxio
-docker compose up -d --build
+docker compose up -d
 ```
 
-First build takes ~10–15 minutes (downloads ESP-IDF, builds the frontend).
-Subsequent builds are cached and take ~1 min.
+First boot takes ~10–15 minutes (downloads ESP-IDF, builds the frontend).
+Subsequent runs take < 1 second. Source code folders are volume-mounted, enabling **hot-reloading** for both the frontend (Vite) and backend (Uvicorn). No `--build` flag is needed unless you change system dependencies.
 
 Then open <http://localhost:3080>. The container generates a random
 `SECRET_KEY` on first boot and persists it in `./data/`, so **no `.env` is
@@ -381,9 +381,8 @@ uvicorn app.main:app --reload --port 8001
 
 ```bash
 # Terminal 2 — frontend
-cd frontend
 npm install
-npm run dev
+npm run dev --workspace=frontend
 ```
 
 Open <http://localhost:5173>.

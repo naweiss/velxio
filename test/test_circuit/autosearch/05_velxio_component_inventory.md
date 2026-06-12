@@ -10,7 +10,7 @@ Velxio tiene **tres capas independientes** que deben estar alineadas para que un
 | Capa | Archivo de referencia | Rol |
 |---|---|---|
 | **Visual** | `frontend/src/components/components-wokwi/*.ts[x]` + `frontend/public/component-svgs/*.svg` | Web Component / SVG que el usuario ve en el canvas |
-| **Metadata** | `frontend/public/components-metadata.json` (generado por `scripts/generate-component-metadata.ts`) | Registro que alimenta el `ComponentPickerModal` — si un componente no está aquí, el usuario no puede añadirlo desde la UI |
+| **Metadata** | `frontend/public/components-metadata.json` (generado por `tools/generate-component-metadata.ts`) | Registro que alimenta el `ComponentPickerModal` — si un componente no está aquí, el usuario no puede añadirlo desde la UI |
 | **Digital-sim** | `frontend/src/simulation/parts/*.ts` (registro `PartSimulationRegistry`) | Lógica reactiva a cambios de pines del MCU (AVR/RP2040/ESP32) |
 | **SPICE-sim** | `frontend/src/simulation/spice/componentToSpice.ts` (tabla `MAPPERS`) | Emite tarjetas de netlist para ngspice-WASM en modo eléctrico |
 
@@ -31,7 +31,7 @@ Registradas como Web Components en [`LogicGateElements.ts`](../../../frontend/sr
 | **XNOR** | ❌ | ❌ | ❌ | ❌ |
 
 **Hallazgos clave:**
-- Las 6 compuertas existentes son **inaccesibles desde la UI** porque no están en `components-metadata.json`. Hay que añadirlas manualmente en `scripts/generate-component-metadata.ts` (o vía `component-overrides.json`) y regenerar el JSON.
+- Las 6 compuertas existentes son **inaccesibles desde la UI** porque no están en `components-metadata.json`. Hay que añadirlas manualmente en `tools/generate-component-metadata.ts` (o vía `component-overrides.json`) y regenerar el JSON.
 - **XNOR falta en las 3 capas**. Es la única compuerta básica de 2 entradas ausente.
 - Solo hay variantes de **2 entradas** (y NOT con 1). Faltan 3-input y 4-input AND/OR/NAND/NOR — útiles en circuitos reales y muy fáciles de añadir porque la lógica es la misma generalizada.
 - Los tests de `spice_logic_gates.test.js` y `spice_digital.test.js` demuestran que **la implementación SPICE es trivial** con B-sources (`V = 20*u(V(a)-2.5)*u(V(b)-2.5) - ...`) — ya están los netlists probados.
@@ -115,7 +115,7 @@ Faltan:
 
 ## Riesgos / bloqueadores para ampliar el catálogo
 
-1. **Generador de metadata (limitación importante):** `scripts/generate-component-metadata.ts` escanea **exclusivamente** `third-party/wokwi-elements/src/*-element.ts` (ver función `findElementFiles()`). El mecanismo de `scripts/component-overrides.json` **NO permite añadir componentes nuevos** — solo parcha propiedades de los componentes que el escaneo ya encontró (ver función `applyOverrides()`: itera sobre `components` y busca `overrides[comp.id]`; si el componente no fue detectado, el override queda inutilizado).
+1. **Generador de metadata (limitación importante):** `tools/generate-component-metadata.ts` escanea **exclusivamente** `third-party/wokwi-elements/src/*-element.ts` (ver función `findElementFiles()`). El mecanismo de `tools/component-overrides.json` **NO permite añadir componentes nuevos** — solo parcha propiedades de los componentes que el escaneo ya encontró (ver función `applyOverrides()`: itera sobre `components` y busca `overrides[comp.id]`; si el componente no fue detectado, el override queda inutilizado).
 
    Consecuencia: todo lo que viva solo en `frontend/src/components/components-wokwi/` (compuertas lógicas, Bmp280Element, IC74HC595, RaspberryPi3Element, etc.) queda fuera del metadata. Cualquier componente nuevo que no exista también en wokwi-elements está en el mismo caso.
 

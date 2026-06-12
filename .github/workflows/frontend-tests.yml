@@ -27,16 +27,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      # The metadata generator scans wokwi-elements/src/, which only ships in
-      # the upstream repo (not on npm). Clone it once for the freshness check.
-      - name: Clone wokwi-elements (for metadata regeneration only)
-        run: git clone --depth=1 https://github.com/wokwi/wokwi-elements.git third-party/wokwi-elements
 
       # Cache the vendored ngspice WASM (24 MB).  Keyed by the file hash —
       # invalidates only when the WASM blob itself changes (rare).  Saves
@@ -61,12 +58,12 @@ jobs:
       # Regenerate metadata and fail if committed JSON is stale. Catches PRs
       # that modify component-overrides.json without running generate:metadata.
       - name: Regenerate component metadata
-        run: cd frontend && npm run generate:metadata
+        run: cd frontend && npx tsx ../tools/generate-component-metadata.ts
 
       - name: Fail if components-metadata.json is out of date
         run: |
           if ! git diff --quiet frontend/public/components-metadata.json; then
-            echo "::error::components-metadata.json is stale. Run 'cd frontend && npm run generate:metadata' and commit the result."
+            echo "::error::components-metadata.json is stale. Run 'npm run generate:metadata' in frontend and commit the result."
             git diff frontend/public/components-metadata.json | head -100
             exit 1
           fi

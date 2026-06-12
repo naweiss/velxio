@@ -13,7 +13,7 @@
  *
  * Sources for the chip programs live alongside the chip in
  * `frontend/src/components/customChips/examples/intel/`, with the original
- * 8080 assembly under `scripts/repl-rom.s` and `scripts/counter-rom.s`.
+ * 8080 assembly under `tools/repl-rom.s` and `tools/counter-rom.s`.
  */
 import type { ExampleProject } from './examples';
 

@@ -1,6 +1,6 @@
 # Fase 10 — Electromecánica + ICs integrados
 
-> **Destino:** `frontend/src/simulation/spice/componentToSpice.ts`, `frontend/src/simulation/parts/`, `scripts/component-overrides.json`, `frontend/src/components/components-wokwi/`.
+> **Destino:** `frontend/src/simulation/spice/componentToSpice.ts`, `frontend/src/simulation/parts/`, `tools/component-overrides.json`, `frontend/src/components/components-wokwi/`.
 > **Pre-requisito leído:** [`phase_9_component_catalog_expansion.md`](phase_9_component_catalog_expansion.md) (completada).
 > **Meta:** cubrir los componentes que quedaban fuera del catálogo analógico puro — electromecánicos (relé), aislamiento óptico (optoacopladores), packaging de lógica combinacional (74HC series) y electromecánica compleja (driver de motores).
 

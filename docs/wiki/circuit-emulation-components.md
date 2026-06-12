@@ -323,7 +323,7 @@ Implemented via a shared `edgeTriggeredFF` helper that tracks the previous CLK s
 
 ## The `_customComponents` mechanism
 
-Velxio-specific parts (everything not defined in `third-party/wokwi-elements`) are declared in `scripts/component-overrides.json` under the `_customComponents[]` array. The metadata generator ([`scripts/generate-component-metadata.ts`](../../scripts/generate-component-metadata.ts), function `applyOverrides`) injects them before the standard property-patching loop. An entry must have: `id`, `tagName`, `name`, `category`, `pinCount`, `tags` — other fields default.
+Velxio-specific parts (everything not defined in `third-party/wokwi-elements`) are declared in `tools/component-overrides.json` under the `_customComponents[]` array. The metadata generator ([`tools/generate-component-metadata.ts`](../../tools/generate-component-metadata.ts), function `applyOverrides`) injects them before the standard property-patching loop. An entry must have: `id`, `tagName`, `name`, `category`, `pinCount`, `tags` — other fields default.
 
 Example:
 

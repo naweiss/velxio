@@ -61,7 +61,7 @@ Category breakdown straight from `frontend/public/components-metadata.json`:
 
 ## Velxio-native components (not in wokwi-elements)
 
-These are defined in `scripts/component-overrides.json` (under `_customComponents`) and built into the catalog at generation time. See [Custom components in the metadata generator](./wiki/component-metadata-generator.md) for the full schema.
+These are defined in `tools/component-overrides.json` (under `_customComponents`) and built into the catalog at generation time. See [Custom components in the metadata generator](./wiki/component-metadata-generator.md) for the full schema.
 
 ### Instruments
 
@@ -131,10 +131,10 @@ Click any component to open its property dialog. Properties vary by part, but co
 
 ## Component metadata pipeline
 
-`frontend/public/components-metadata.json` is **generated** by `scripts/generate-component-metadata.ts`. Direct edits get wiped on the next regen.
+`frontend/public/components-metadata.json` is **generated** by `tools/generate-component-metadata.ts`. Direct edits get wiped on the next regen.
 
 - **wokwi-elements components** — auto-discovered by scanning `third-party/wokwi-elements/src/` (clone optional; the npm package doesn't ship the source).
-- **Velxio-native components** — defined under `_customComponents` in `scripts/component-overrides.json`.
+- **Velxio-native components** — defined under `_customComponents` in `tools/component-overrides.json`.
 - **wokwi-elements with richer UI controls** — keyed override in the same file patches `properties` + `defaultValues`.
 
 To regenerate after editing the override file:
@@ -156,7 +156,7 @@ For a Velxio-native part:
 
 1. Implement it as a Web Component (`class extends HTMLElement`, `attachShadow`, `pinInfo` getter). See `Esp32Element.ts`, `Bmp280Element.ts`, or `LogicGateElements.ts` for templates.
 2. Register the custom element with `customElements.define('velxio-…', FooElement)`.
-3. Add the entry to `scripts/component-overrides.json` under `_customComponents`.
+3. Add the entry to `tools/component-overrides.json` under `_customComponents`.
 4. (Optional) Register a behavior in `PartSimulationRegistry` if the component reacts to pin state changes (output) or fires events (input).
 5. Run `npm run generate:metadata`.
 

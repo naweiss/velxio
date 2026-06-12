@@ -6,7 +6,7 @@ import { dirname, resolve } from 'node:path';
 /**
  * Metadata drift detector.
  *
- * Verifies that every component declared in `scripts/component-overrides.json`
+ * Verifies that every component declared in `tools/component-overrides.json`
  * under `_customComponents[]` is also present in
  * `frontend/public/components-metadata.json`.
  *
@@ -17,7 +17,7 @@ import { dirname, resolve } from 'node:path';
  */
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
-const OVERRIDES_PATH = resolve(ROOT, 'scripts/component-overrides.json');
+const OVERRIDES_PATH = resolve(ROOT, 'tools/component-overrides.json');
 const METADATA_PATH = resolve(ROOT, 'frontend/public/components-metadata.json');
 
 function readJson(path) {

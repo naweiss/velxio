@@ -1,7 +1,7 @@
 /**
  * SSR entry point for prerendering SEO pages at build time.
  *
- * Used by scripts/prerender-seo.mjs via Vite's ssrLoadModule.
+ * Used by tools/prerender-seo.mjs via Vite's ssrLoadModule.
  * Renders each page component to an HTML string so the prerender script
  * can inject it into the static dist/index.html per route.
  */

@@ -5,7 +5,7 @@
  * MUST agree on locale codes character-for-character.
  *
  * When adding or removing a locale, update both files plus
- * `scripts/translate/locales.mjs` in velxio_blog.
+ * `tools/translate/locales.mjs` in velxio_blog.
  */
 
 export const LOCALES = [

@@ -13,3 +13,12 @@
 [submodule "third-party/wokwi-features"]
 	path = third-party/wokwi-features
 	url = https://github.com/wokwi/wokwi-features.git
+[submodule "third-party/esp-idf"]
+	path = third-party/esp-idf
+	url = https://github.com/espressif/esp-idf.git
+[submodule "third-party/arduino-esp32"]
+	path = third-party/arduino-esp32
+	url = https://github.com/espressif/arduino-esp32.git
+[submodule "third-party/wokwi-boards"]
+	path = third-party/wokwi-boards
+	url = https://github.com/wokwi/wokwi-boards.git

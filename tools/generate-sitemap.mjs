@@ -25,7 +25,7 @@ function parseExampleIds(source) {
 }
 
 // Parse seoRoutes.ts to extract the route objects
-const seoRoutesPath = resolve(__dirname, '../src/seoRoutes.ts');
+const seoRoutesPath = resolve(__dirname, '../frontend/src/seoRoutes.ts');
 const source = readFileSync(seoRoutesPath, 'utf-8');
 
 // Extract the array content between SEO_ROUTES = [ ... ];
@@ -50,8 +50,8 @@ const indexable = routes.filter((r) => !r.noindex);
 // Parse example project IDs and add /examples/:id URLs.
 // Reads both examples.ts (legacy) and examples-circuits.ts (analog/digital/
 // electromech examples added in circuitExamples).
-const examplesSource = readFileSync(resolve(__dirname, '../src/data/examples.ts'), 'utf-8');
-const circuitSource  = readFileSync(resolve(__dirname, '../src/data/examples-circuits.ts'), 'utf-8');
+const examplesSource = readFileSync(resolve(__dirname, '../frontend/src/data/examples.ts'), 'utf-8');
+const circuitSource  = readFileSync(resolve(__dirname, '../frontend/src/data/examples-circuits.ts'), 'utf-8');
 const exampleIds = [
   ...parseExampleIds(examplesSource),
   ...parseExampleIds(circuitSource),
@@ -93,7 +93,7 @@ ${exampleUrls
 </urlset>
 `;
 
-const outPath = resolve(__dirname, '../public/sitemap.xml');
+const outPath = resolve(__dirname, '../frontend/public/sitemap.xml');
 writeFileSync(outPath, xml.trimStart(), 'utf-8');
 console.log(`sitemap.xml generated → ${indexable.length + exampleIds.length} URLs (${TODAY}) [${indexable.length} routes + ${exampleIds.length} examples]`);
 
